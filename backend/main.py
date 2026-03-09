@@ -6,7 +6,7 @@ FastAPI backend with:
 - Role-based access control (employee / employer)
 - Rate limiting on auth endpoints (slowapi)
 - Request logging middleware
-- Pydantic v2 input validation with strict field constraints
+- Pydantic v2 input validation with stricƒt field constraints
 - MongoDB indexes for query performance
 """
 
@@ -58,7 +58,8 @@ settings = Settings()
 # ---------------------------------------------------------------------------
 # Database — create indexes on startup for efficient queries
 # ---------------------------------------------------------------------------
-client = MongoClient(settings.mongo_uri)
+client = MongoClient(settings.mongo_uri, tls=True, tlsAllowInvalidCertificates=True)
+
 db = client["leave_app"]
 
 # Indexes: unique email prevents duplicate accounts; status index speeds up
