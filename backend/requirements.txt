@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+pymongo
+python-jose[cryptography]
+bcrypt
+python-multipart
+pydantic-settings
+pydantic[email]
+slowapi

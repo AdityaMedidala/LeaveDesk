@@ -1,0 +1,39 @@
+# docker-compose up --build
+# Starts backend + frontend together with one command.
+# Backend:  http://localhost:8000
+# Frontend: http://localhost:5173
+# API docs: http://localhost:8000/docs
+#
+# Before running: cp backend/.env.example backend/.env  and fill in your values
+
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env     # secrets come from here — no shell env needed
+    volumes:
+      - ./backend:/app     # live reload in dev
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      target: builder      # builder stage = Vite dev server with HMR
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # keep container's node_modules, don't overwrite with host
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - backend
