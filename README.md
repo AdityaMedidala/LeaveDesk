@@ -96,7 +96,6 @@ cd frontend && npm install && npm run dev
 |----------------------|---------------------------------|
 | `MONGO_URI`          | MongoDB Atlas connection string |
 | `JWT_SECRET`         | Secret for signing JWTs         |
-| `JWT_EXPIRE_MINUTES` | Token lifetime (default 1440)   |
 
 **`frontend/.env`**
 | Variable       | Description          |
